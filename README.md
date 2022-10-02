@@ -26,3 +26,10 @@ peptdeep_hla class1 -h
 ## Notebook
 
 See [HLA1_Classifier.ipynb](nbs/HLA1_Classifier.ipynb).
+
+## Citations
+
+Wen-Feng Zeng, Xie-Xuan Zhou, Sander Willems, Constantin Ammar, Maria
+Wahle, Isabell Bludau, Eugenia Voytik, Maximillian T. Strauss, Matthias
+Mann.
+[BioRxiv](https://www.biorxiv.org/content/10.1101/2022.07.14.499992).
