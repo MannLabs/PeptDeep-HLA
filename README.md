@@ -25,4 +25,4 @@ peptdeep_hla class1 -h
 
 ## Notebook
 
-See [HLA1_Classifier.ipynb](../nbs/HLA1_Classifier.ipynb).
+See [HLA1_Classifier.ipynb](nbs/HLA1_Classifier.ipynb).
