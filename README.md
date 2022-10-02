@@ -6,18 +6,18 @@ This is a sub-module of [AlphaPeptDeep](https://github.com/mannlabs/alphapeptdee
 
 ## Installation
 
-After installing anaconda, please clone and install this package to using commands below:
+After installing anaconda, please clone and install this package using commands below:
 
 ```bash
-cd path/to/place/this/repo
+cd path/to/place/this/package
 git clone https://github.com/MannLabs/PeptDeep-HLA.git
 cd PeptDeep-HLA
-pip install -e .
+pip install .
 ```
 
 ## CLI
 
-After installation, we can use command line interface (CLI) to train sample-specific HLA models and predict HLA peptides either from fasta files or from peptide tables, please type command below to check usages:
+After installation, we can use command line interface (CLI) to train sample-specific HLA models and predict HLA peptides either from fasta files or from peptide tables, please type the command below to check usages:
 
 ```bash
 peptdeep_hla class1 -h
@@ -25,4 +25,4 @@ peptdeep_hla class1 -h
 
 ## Notebook
 
-See [HLAClassifier.ipynb](../nbs/HLAClassifier.ipynb).
+See [HLA1_Classifier.ipynb](../nbs/HLA1_Classifier.ipynb).

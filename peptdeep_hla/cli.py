@@ -1,4 +1,5 @@
 import click
+import os
 import pandas as pd
 
 from peptdeep.pipeline_api import _get_delimiter
@@ -113,7 +114,7 @@ def run_class1(
         min_peptide_length=min_peptide_length,
         max_peptide_length=max_peptide_length
     )
-    if pretrained_model:
+    if os.path.isfile(pretrained_model):
         model.load(pretrained_model)
     if peptide_file_to_train:
         seq_df = read_peptide_files_as_df(peptide_file_to_train)
@@ -135,6 +136,10 @@ def run_class1(
         seq_df = model.predict_from_proteins(
             prob_threshold=prob_threshold
         )
+    
+    dirname = os.path.dirname(prediction_save_as)
+    if not os.path.isdir(dirname):
+        os.makedirs(dirname)
     seq_df.to_csv(prediction_save_as, sep='\t', index=False)
 
     
