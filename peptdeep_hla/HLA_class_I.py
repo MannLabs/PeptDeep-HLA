@@ -256,16 +256,16 @@ class HLA_Class_I_Classifier(ModelInterface):
             self.digested_idxes_df[
                 self.target_column_to_predict
             ]>=prob_threshold
-        ].copy()
+        ].reset_index(drop=True)
 
-        peptide_df = get_seq_series(
+        peptide_df['sequence'] = get_seq_series(
             peptide_df, 
             self._cat_protein_sequence
         )
-        return self.peptide_df        
+        return peptide_df        
 
 pretrained_HLA1 = os.path.join(
     os.path.dirname(__file__), 
-    'pretrained_models/IEDB-HLA1.pt'
+    'pretrained_models/HLA1_IEDB.pt'
 )
     
