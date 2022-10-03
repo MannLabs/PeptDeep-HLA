@@ -70,7 +70,7 @@ Using Jupyter notebooks might be easier if users are not familiar with CLI.
 
 ## Spectral libraries
 
-After HLA peptides are predicted, we can then use  these peptides to predict spectral libraries with[AlphaPeptDeep](https://github.com/mannlabs/alphapeptdeep) for HLA DIA analysis.
+After HLA peptides are predicted, we can then use  these peptides to predict spectral libraries with [AlphaPeptDeep](https://github.com/mannlabs/alphapeptdeep) for HLA DIA analysis.
 
 ## Citations
 
