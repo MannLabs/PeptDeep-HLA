@@ -25,8 +25,8 @@ peptdeep_hla class1 -h
 
 Here are the details of the CLI parameters/options:
 
-- prediction-save-as TEXT: File to save the predicted HLA peptides  [required]
-- fasta TEXT: The input fasta files for training and prediction, multiple fasta files are supported, such as: `--fasta 1.fasta --fasta 2.fasta ...`. If `--peptides-to-predict` is provided, These fasta files will be ignored in prediction.
+- --prediction-save-as TEXT: File to save the predicted HLA peptides  [required]
+- --fasta TEXT: The input fasta files for training and prediction, multiple fasta files are supported, such as: `--fasta 1.fasta --fasta 2.fasta ...`. If `--peptides-to-predict` is provided, These fasta files will be ignored in prediction.
 - --peptide-file-to-predict TEXT: Peptide file for prediction. It is an txt/tsv/csv file which contains peptide sequences in `sequence` column to be predicted. If not provided, this program will predict peptides from fasta files. **Optional**, default is empty.
 - --pretrained-model TEXT: The input model for transfer learning or prediction. **Optional**, default is the built-in pretrained model.
 - --prob-threshold FLOAT: Predicted probability threshold to discriminate HLA peptides. **Optional**, default=0.7.
@@ -44,12 +44,11 @@ Here are the details of the CLI parameters/options:
 - --max-peptide-length INTEGER: **Optional**, default=14.
 
 - -h, --help                      Show this message and exit.
-```
 
 For example, use the following command to predict from fasta without trainfer learning:
 
 ```bash
-peptdeep_hla class1 --fasta '/Users/zengwenfeng/Workspace/Data/fasta/irtfusion.fasta' --prediction-save-as /Users/zengwenfeng/Workspace/Data/fasta/irt_hla.tsv
+peptdeep_hla class1 --fasta /Users/zengwenfeng/Workspace/Data/fasta/irtfusion.fasta --prediction-save-as /Users/zengwenfeng/Workspace/Data/fasta/irt_hla.tsv
 ```
 
 ## Notebook
