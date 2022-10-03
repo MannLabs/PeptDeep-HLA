@@ -36,7 +36,7 @@ Here are the details of the CLI parameters/options:
 - --peptide-file-to-predict TEXT: Peptide file for prediction. It is an txt/tsv/csv file which contains peptide sequences in `sequence` column to be predicted. If not provided, this program will predict peptides from fasta files. **Optional**, default is empty.
 - --pretrained-model TEXT: The input model for transfer learning or prediction. **Optional**, default is the built-in pretrained model.
 - --prob-threshold FLOAT: Predicted probability threshold to discriminate HLA peptides. **Optional**, default=0.7.
-- --peptide-file-to-train TEXT: Peptide file for transfer learning. It is an txt/tsv/csv file which contains true HLA peptide sequences in `sequence` column for training**Optional**, default is empty.
+- --peptide-file-to-train TEXT: Peptide file for transfer learning. It is an txt/tsv/csv file which contains true HLA peptide sequences in `sequence` column for training. **Optional**, default is empty.
 - --model-save-as TEXT: File to save the transfer learned model. **Optional**, applicable if `--peptide-file-to-train` is provided.
 - --predicting-batch-size INTEGER: The larger the better, but it depends on the GPU/CPU RAM. **Optional**, default=4096.
 - --training-batch-size INTEGER: **Optional**, default=1024.
