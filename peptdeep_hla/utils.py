@@ -11,7 +11,7 @@ from alphabase.protein.fasta import load_all_proteins
 def load_prot_df(
     protein_data:Union[str,list,dict], 
 ):
-    if isinstance(protein_data, (list,tuple)):
+    if isinstance(protein_data, (list,tuple,set)):
         protein_dict = load_all_proteins(protein_data)
     elif isinstance(protein_data, str):
         protein_dict = load_all_proteins([protein_data])

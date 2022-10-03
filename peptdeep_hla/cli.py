@@ -75,6 +75,11 @@ def run(ctx, **kwargs):
     help="File to save the transfer learned model. "
     "**Optional**, applicable if `--peptide-file-to-train` is provided."
 )
+@click.option("--predicting-batch-size", 
+    default=4096, type=int,
+    help="The larger the better, but it depends on the GPU/CPU RAM. "
+    "**Optional**, default=4096."
+)
 @click.option("--training-batch-size", 
     default=1024, type=int,
     help="**Optional**, default=1024."
@@ -96,26 +101,30 @@ def run(ctx, **kwargs):
     help="**Optional**, default=14."
 )
 def run_class1(
-    fasta, 
-    peptide_file_to_predict,
-    pretrained_model, 
     prediction_save_as, 
-    prob_threshold,
-    peptide_file_to_train, 
-    model_save_as,
-    training_batch_size,
-    training_epoch,
-    training_warmup_epoch,
-    min_peptide_length,
-    max_peptide_length,
+    fasta:list = [], 
+    peptide_file_to_predict:list = [],
+    prob_threshold:float=0.7,
+    pretrained_model:str=pretrained_HLA1, 
+    peptide_file_to_train:list = [], 
+    model_save_as:str = '',
+    predicting_batch_size:int=4096,
+    training_batch_size:int=1024,
+    min_peptide_length:int=8,
+    max_peptide_length:int=14,
+    training_epoch:int=40,
+    training_warmup_epoch:int=10,
 ):
     model = HLA_Class_I_Classifier(
         fasta, 
         min_peptide_length=min_peptide_length,
         max_peptide_length=max_peptide_length
     )
+    model.predict_batch_size = predicting_batch_size
+
     if os.path.isfile(pretrained_model):
         model.load(pretrained_model)
+
     if peptide_file_to_train:
         seq_df = read_peptide_files_as_df(peptide_file_to_train)
         model.train(
@@ -127,6 +136,7 @@ def run_class1(
         )
         if model_save_as:
             model.save(model_save_as)
+
     if peptide_file_to_predict:
         seq_df = read_peptide_files_as_df(peptide_file_to_predict)
         seq_df = model.predict_from_peptide_df(
@@ -141,5 +151,5 @@ def run_class1(
     if not os.path.isdir(dirname):
         os.makedirs(dirname)
     seq_df.to_csv(prediction_save_as, sep='\t', index=False)
-
+    print(f"Predicted HLA-I peptides were saved in '{prediction_save_as}'.")
     
