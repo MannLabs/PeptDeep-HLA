@@ -58,6 +58,8 @@ peptdeep_hla class1 --fasta /Users/zengwenfeng/Workspace/Data/fasta/irtfusion.fa
 - HLA1_IEDB.pt: the LSTM model trained with HLA1 sequeces from IEDB. This is the default pretrained model in peptdeep_hla.
 - HLA1_94.pt: the LSTM model trained with 94 allele types.
 
+[HLA1_transfer.ipynb](nbs/HLA1_transfer.ipynb). A simple example of transfer learning for sample-specific models.
+
 ## Citations
 
 Wen-Feng Zeng, Xie-Xuan Zhou, Sander Willems, Constantin Ammar, Maria
