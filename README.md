@@ -2,11 +2,11 @@
 
 A deep learning-model that predicts if a HLA peptide is present or not.
 
-This is a sub-module of [AlphaPeptDeep](https://github.com/mannlabs/alphapeptdeep), and see our [publication](https://www.biorxiv.org/content/10.1101/2022.07.14.499992) for details.
+This is a sub-package of [AlphaPeptDeep](https://github.com/mannlabs/alphapeptdeep), and see our [publication](https://www.biorxiv.org/content/10.1101/2022.07.14.499992) for details.
 
 ## Installation
 
-After installing anaconda, please clone and install this package using commands below:
+After installing [anaconda](https://www.anaconda.com/), please clone and install this package using commands below:
 
 ```bash
 cd path/to/place/this/package
@@ -52,6 +52,8 @@ peptdeep_hla class1 --fasta /Users/zengwenfeng/Workspace/Data/fasta/irtfusion.fa
 ```
 
 ## Notebook
+
+Using Jupyter notebooks might be easier if users are not familiar with CLI.
 
 [HLA1_Classifier.ipynb](nbs/HLA1_Classifier.ipynb). We used this notebook to train the pretrained models:
 
