@@ -18,6 +18,10 @@ def read_peptide_files_as_df(peptide_files):
         sep = _get_delimiter(fname)
         df_list.append(pd.read_csv(fname, sep=sep))
     seq_df = pd.concat(df_list, ignore_index=True)
+    seq_df.drop_duplicates(
+        'sequence', inplace=True, 
+        ignore_index=True
+    )
     return seq_df
 
 @click.group(

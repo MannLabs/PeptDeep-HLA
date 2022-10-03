@@ -32,8 +32,8 @@ peptdeep_hla class1 -h
 Here are the details of the CLI parameters/options:
 
 - --prediction-save-as TEXT: File to save the predicted HLA peptides  [required]
-- --fasta TEXT: The input fasta files for training and prediction, multiple fasta files are supported, such as: `--fasta 1.fasta --fasta 2.fasta ...`. If `--peptides-to-predict` is provided, These fasta files will be ignored in prediction.
-- --peptide-file-to-predict TEXT: Peptide file for prediction. It is an txt/tsv/csv file which contains peptide sequences in `sequence` column to be predicted. If not provided, this program will predict peptides from fasta files. **Optional**, default is empty.
+- --fasta TEXT: The input fasta files for training and prediction, multiple fasta files are supported, such as: `--fasta 1.fasta --fasta 2.fasta ...`. If `--peptide-file-to-predict` is provided, these fasta files will be ignored in prediction.
+- --peptide-file-to-predict TEXT: Peptide file for prediction. It is an txt/tsv/csv file which contains peptide sequences in `sequence` column to be predicted. If not provided, this program will predict peptides from fasta files. Multiple files are supported. **Optional**, default is empty.
 - --pretrained-model TEXT: The input model for transfer learning or prediction. **Optional**, default is the built-in pretrained model.
 - --prob-threshold FLOAT: Predicted probability threshold to discriminate HLA peptides. **Optional**, default=0.7.
 - --peptide-file-to-train TEXT: Peptide file for transfer learning. It is an txt/tsv/csv file which contains true HLA peptide sequences in `sequence` column for training. **Optional**, default is empty.
