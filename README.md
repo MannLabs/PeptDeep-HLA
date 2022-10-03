@@ -62,6 +62,10 @@ Using Jupyter notebooks might be easier if users are not familiar with CLI.
 
 [HLA1_transfer.ipynb](nbs/HLA1_transfer.ipynb). A simple example of transfer learning for sample-specific models.
 
+## Spectral libraries
+
+After HLA peptides are predicted, we can then use [AlphaPeptDeep](https://github.com/mannlabs/alphapeptdeep) to predict spectral libraries for HLA DIA analysis.
+
 ## Citations
 
 Wen-Feng Zeng, Xie-Xuan Zhou, Sander Willems, Constantin Ammar, Maria
