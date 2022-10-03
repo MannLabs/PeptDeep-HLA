@@ -15,6 +15,12 @@ cd PeptDeep-HLA
 pip install .
 ```
 
+Or install directly via pip:
+
+```
+pip install git+https://github.com/MannLabs/PeptDeep-HLA
+```
+
 ## CLI
 
 After installation, we can use command line interface (CLI) to train sample-specific HLA models and predict HLA peptides either from fasta files or from peptide tables. Type the command below will show usage messages.
@@ -60,15 +66,13 @@ Using Jupyter notebooks might be easier if users are not familiar with CLI.
 - HLA1_IEDB.pt: the LSTM model trained with HLA1 sequeces from IEDB. This is the default pretrained model in peptdeep_hla.
 - HLA1_94.pt: the LSTM model trained with 94 allele types.
 
-[HLA1_transfer.ipynb](nbs/HLA1_transfer.ipynb). A simple example of transfer learning for sample-specific models.
+[HLA1_transfer.ipynb](nbs/HLA1_transfer.ipynb). A simple example of transfer learning to train the sample-specific model.
 
 ## Spectral libraries
 
-After HLA peptides are predicted, we can then use [AlphaPeptDeep](https://github.com/mannlabs/alphapeptdeep) to predict spectral libraries for HLA DIA analysis.
+After HLA peptides are predicted, we can then use  these peptides to predict spectral libraries with[AlphaPeptDeep](https://github.com/mannlabs/alphapeptdeep) for HLA DIA analysis.
 
 ## Citations
 
-Wen-Feng Zeng, Xie-Xuan Zhou, Sander Willems, Constantin Ammar, Maria
-Wahle, Isabell Bludau, Eugenia Voytik, Maximillian T. Strauss, Matthias
-Mann.
+Wen-Feng Zeng, Xie-Xuan Zhou, Sander Willems, Constantin Ammar, Maria Wahle, Isabell Bludau, Eugenia Voytik, Maximillian T. Strauss, Matthias Mann.
 [BioRxiv](https://www.biorxiv.org/content/10.1101/2022.07.14.499992).
