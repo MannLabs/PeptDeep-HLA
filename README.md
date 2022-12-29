@@ -4,6 +4,13 @@ A deep learning-model that predicts if a HLA peptide is present or not.
 
 This is a sub-package of [AlphaPeptDeep](https://github.com/mannlabs/alphapeptdeep), and see our [publication](https://www.biorxiv.org/content/10.1101/2022.07.14.499992) for details.
 
+## Quick start
+
+Use Colab to train the models and predict HLA peptides, see:
+
+[Training from scratch](nbs/HLA1_Classifier.ipynb)
+[Transfer learning](nbs/HLA1_transfer.ipynb)
+
 ## Installation
 
 After installing [anaconda](https://www.anaconda.com/), please clone and install this package using commands below:
