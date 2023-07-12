@@ -1,4 +1,5 @@
 import click
+import os
 import pandas as pd
 
 from peptdeep.pipeline_api import _get_delimiter
@@ -17,6 +18,10 @@ def read_peptide_files_as_df(peptide_files):
         sep = _get_delimiter(fname)
         df_list.append(pd.read_csv(fname, sep=sep))
     seq_df = pd.concat(df_list, ignore_index=True)
+    seq_df.drop_duplicates(
+        'sequence', inplace=True, 
+        ignore_index=True
+    )
     return seq_df
 
 @click.group(
@@ -95,26 +100,30 @@ def run(ctx, **kwargs):
     help="**Optional**, default=14."
 )
 def run_class1(
-    fasta, 
-    peptide_file_to_predict,
-    pretrained_model, 
     prediction_save_as, 
-    prob_threshold,
-    peptide_file_to_train, 
-    model_save_as,
-    training_batch_size,
-    training_epoch,
-    training_warmup_epoch,
-    min_peptide_length,
-    max_peptide_length,
+    fasta:list = [], 
+    peptide_file_to_predict:list = [],
+    prob_threshold:float=0.7,
+    pretrained_model:str=pretrained_HLA1, 
+    peptide_file_to_train:list = [], 
+    model_save_as:str = '',
+    predicting_batch_size:int=4096,
+    training_batch_size:int=1024,
+    min_peptide_length:int=8,
+    max_peptide_length:int=14,
+    training_epoch:int=40,
+    training_warmup_epoch:int=10,
 ):
     model = HLA_Class_I_Classifier(
         fasta, 
         min_peptide_length=min_peptide_length,
         max_peptide_length=max_peptide_length
     )
-    if pretrained_model:
+    model.predict_batch_size = predicting_batch_size
+
+    if os.path.isfile(pretrained_model):
         model.load(pretrained_model)
+
     if peptide_file_to_train:
         seq_df = read_peptide_files_as_df(peptide_file_to_train)
         model.train(
@@ -126,6 +135,7 @@ def run_class1(
         )
         if model_save_as:
             model.save(model_save_as)
+
     if peptide_file_to_predict:
         seq_df = read_peptide_files_as_df(peptide_file_to_predict)
         seq_df = model.predict_from_peptide_df(
@@ -135,6 +145,10 @@ def run_class1(
         seq_df = model.predict_from_proteins(
             prob_threshold=prob_threshold
         )
+    
+    dirname = os.path.dirname(prediction_save_as)
+    if not os.path.isdir(dirname):
+        os.makedirs(dirname)
     seq_df.to_csv(prediction_save_as, sep='\t', index=False)
-
+    print(f"Predicted HLA-I peptides were saved in '{prediction_save_as}'.")
     

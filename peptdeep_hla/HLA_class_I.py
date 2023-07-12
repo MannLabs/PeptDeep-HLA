@@ -103,12 +103,12 @@ class HLA_Class_I_Bert(torch.nn.Module):
 
 class HLA_Class_I_Classifier(ModelInterface):
     def __init__(self, 
-        fasta_files,
-        dropout=0.1,
+        fasta_files:list,
+        dropout:float=0.1,
         model_class:torch.nn.Module=HLA_Class_I_LSTM, # model defined above
         device:str='gpu',
-        min_peptide_length=8,
-        max_peptide_length=14,
+        min_peptide_length:int=8,
+        max_peptide_length:int=14,
         **kwargs,
     ):
         """
@@ -127,6 +127,8 @@ class HLA_Class_I_Classifier(ModelInterface):
         self._n_neg_per_pos_training = 1
 
         self.load_proteins(fasta_files)
+
+        self.predict_batch_size = 4096
 
     def _prepare_predict_data_df(self,
         precursor_df:pd.DataFrame,
@@ -215,20 +217,22 @@ class HLA_Class_I_Classifier(ModelInterface):
             self.max_peptide_length
         )
 
-    def _predict_all_probs(self, batch_size):
+    def _predict_all_probs(self, digest_batch_size):
         for i in tqdm.tqdm(range(
             0, len(self.digested_idxes_df), 
-            batch_size
+            digest_batch_size
         )):
-            _df = self.digested_idxes_df.iloc[i:i+batch_size]
+            _df = self.digested_idxes_df.iloc[i:i+digest_batch_size]
             seq_df = get_seq_series(
                 _df, self._cat_protein_sequence
             ).to_frame('sequence')
             seq_df['nAA'] = _df.nAA
-            self.predict(seq_df, batch_size=4096)
+            self.predict(seq_df, 
+                batch_size=self.predict_batch_size
+            )
             self.digested_idxes_df[
                 self.target_column_to_predict
-            ].values[i:i+batch_size] = seq_df[
+            ].values[i:i+digest_batch_size] = seq_df[
                 self.target_column_to_predict
             ]
 
@@ -236,21 +240,24 @@ class HLA_Class_I_Classifier(ModelInterface):
         peptide_df,
         prob_threshold=0.7,
     ):
-        peptide_df = self.predict(peptide_df)
+        peptide_df = self.predict(
+            peptide_df, 
+            batch_size=self.predict_batch_size
+        )
         return peptide_df[peptide_df[
             self.target_column_to_predict
         ]>=prob_threshold].copy()
 
     def predict_from_proteins(self,
-        prob_threshold=0.7,
-        batch_size=1024000, 
+        prob_threshold:float=0.7,
+        digest_batch_size:int=1024000, 
     ):
         self.digest_proteins()
         self.digested_idxes_df[
             self.target_column_to_predict
         ] = 0.0
 
-        self._predict_all_probs(batch_size)
+        self._predict_all_probs(digest_batch_size)
 
         peptide_df = self.digested_idxes_df[
             self.digested_idxes_df[
