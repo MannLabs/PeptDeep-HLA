@@ -36,17 +36,17 @@ def run(ctx, **kwargs):
     help="Predict peptides of HLA Class I "
     "with transfer learning (if training peptides are provided)"
 )
-@click.option("--prediction-save-as", required=True,
+@click.option("--prediction_save_as", required=True,
     help="File to save the predicted HLA peptides"
 )
-@click.option("--fasta", multiple=True,
+@click.option("--fasta", multiple=True, required=True,
     help="The input fasta files for training and prediction, "
     "multiple fasta files are supported, such as: "
     "`--fasta 1.fasta --fasta 2.fasta ...`. "
     "If `--peptides-to-predict` is provided, These fasta files "
     "will be ignored in prediction."
 )
-@click.option("--peptide-file-to-predict", multiple=True,
+@click.option("--peptide_file_to_predict", multiple=True,
     help="Peptide file for prediction. "
     "It is an txt/tsv/csv file which contains "
     "peptide sequences in `sequence` column to be predicted. "
@@ -54,43 +54,43 @@ def run(ctx, **kwargs):
     "predict peptides from fasta files."
     " **Optional**, default is empty."
 )
-@click.option("--pretrained-model", 
+@click.option("--pretrained_model", 
     default=pretrained_HLA1, type=str,
     help="The input model for transfer learning or prediction. "
     "**Optional**, default is the built-in pretrained model."
 )
-@click.option("--prob-threshold", 
+@click.option("--prob_threshold", 
     default=0.7, type=float,
     help="Predicted probability threshold to discriminate HLA peptides. "
     "**Optional**, default=0.7."
 )
-@click.option("--peptide-file-to-train", multiple=True,
+@click.option("--peptide_file_to_train", multiple=True,
     help="Peptide file for transfer learning. "
     "It is an txt/tsv/csv file which contains "
     "true HLA peptide sequences in `sequence` column for training"
     "**Optional**, default is empty."
 )
-@click.option("--model-save-as",
+@click.option("--model_save_as",
     help="File to save the transfer learned model. "
     "**Optional**, applicable if `--peptide-file-to-train` is provided."
 )
-@click.option("--training-batch-size", 
+@click.option("--training_batch_size", 
     default=1024, type=int,
     help="**Optional**, default=1024."
 )
-@click.option("--training-epoch", 
+@click.option("--training_epoch", 
     default=40, type=int,
     help="**Optional**, default=40."
 )
-@click.option("--training-warmup-epoch", 
+@click.option("--training_warmup_epoch", 
     default=10, type=int,
     help="**Optional**, default=10."
 )
-@click.option("--min-peptide-length", 
+@click.option("--min_peptide_length", 
     default=8, type=int,
     help="**Optional**, default=8."
 )
-@click.option("--max-peptide-length", 
+@click.option("--max_peptide_length", 
     default=14, type=int,
     help="**Optional**, default=14."
 )

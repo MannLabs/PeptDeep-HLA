@@ -264,8 +264,9 @@ class HLA_Class_I_Classifier(ModelInterface):
         )
         return peptide_df        
 
-pretrained_HLA1 = os.path.join(
+PRETRAINED_HLA1 = os.path.join(
     os.path.dirname(__file__), 
     'pretrained_models/HLA1_IEDB.pt'
 )
+pretrained_HLA1 = PRETRAINED_HLA1
     
