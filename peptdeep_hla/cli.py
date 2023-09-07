@@ -13,17 +13,33 @@ from peptdeep_hla.HLA_class_I import (
 )
 from peptdeep_hla.utils import check_is_file
 
-def read_peptide_files_as_df(peptide_files):
+from alphabase.psm_reader import psm_reader_provider
+
+def read_peptide_files_as_df(
+    peptide_files, 
+    file_type:str='',
+    raw_names_to_keep_seqs:list=[],
+):
+    try:
+        reader = psm_reader_provider.get_reader(file_type)
+    except KeyError:
+        reader = None
     df_list = []
     for fname in peptide_files:
-        sep = _get_delimiter(fname)
-        df_list.append(pd.read_csv(fname, sep=sep))
+        if check_is_file(fname):
+            if reader is None:
+                sep = _get_delimiter(fname)
+                df_list.append(pd.read_csv(fname, sep=sep))
+            else:
+                df = reader._load_file(fname)
+                reader._translate_columns(df)
+                df_list.append(reader._psm_df)
     seq_df = pd.concat(df_list, ignore_index=True)
-    seq_df.drop_duplicates(
-        'sequence', inplace=True, 
-        ignore_index=True
+    if raw_names_to_keep_seqs and "raw_name" in seq_df.columns:
+        seq_df = seq_df[seq_df.raw_name.isin(raw_names_to_keep_seqs)]
+    return seq_df.drop_duplicates(
+        'sequence', ignore_index=True
     )
-    return seq_df
 
 @click.group(
     context_settings=dict(
@@ -76,6 +92,16 @@ def run(ctx, **kwargs):
     "true HLA peptide sequences in `sequence` column for training"
     "**Optional**, default is empty."
 )
+@click.option("--training_file_type", 
+    default="", type=str,
+    help='The input file type for transfer learning, '
+    'including "" and all supported formats in `alphabase.psm_reader.psm_reader_provider`. '
+    '**Optional**, default is empty "".'
+)
+@click.option("--training_raw_names", multiple=True,
+    help="Only keep sequences from these raw_names for transfer learning"
+    "**Optional**, default is empty."
+)
 @click.option("--model_save_as",
     help="File to save the transfer learned model. "
     "**Optional**, applicable if `--peptide-file-to-train` is provided."
@@ -107,6 +133,8 @@ def run_class1(
     prob_threshold:float=0.7,
     pretrained_model:str=pretrained_HLA1, 
     peptide_file_to_train:list = [], 
+    training_file_type:str = "",
+    training_raw_names:list = [],
     model_save_as:str = '',
     predicting_batch_size:int=4096,
     training_batch_size:int=1024,
@@ -125,8 +153,12 @@ def run_class1(
     if check_is_file(pretrained_model):
         model.load(pretrained_model)
 
-    if check_is_file(peptide_file_to_train):
-        seq_df = read_peptide_files_as_df(peptide_file_to_train)
+    if len(peptide_file_to_train) > 0:
+        seq_df = read_peptide_files_as_df(
+            peptide_file_to_train,
+            file_type=training_file_type,
+            raw_names_to_keep_seqs=training_raw_names,
+        )
         model.train(
             seq_df,
             batch_size=training_batch_size,
@@ -137,7 +169,7 @@ def run_class1(
         if model_save_as:
             model.save(model_save_as)
 
-    if check_is_file(peptide_file_to_predict):
+    if len(peptide_file_to_predict) > 0:
         seq_df = read_peptide_files_as_df(peptide_file_to_predict)
         seq_df = model.predict_from_peptide_df(
             seq_df, prob_threshold=prob_threshold
