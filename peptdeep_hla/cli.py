@@ -2,7 +2,7 @@ import click
 import os
 import pandas as pd
 
-from peptdeep.pipeline_api import _get_delimiter
+from peptdeep.utils import _get_delimiter
 
 import peptdeep_hla
 
