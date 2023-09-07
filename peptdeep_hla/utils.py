@@ -2,6 +2,8 @@ import pandas as pd
 import numpy as np
 import numba
 
+import os
+
 from typing import Union
 
 from alphabase.protein.lcp_digest import get_substring_indices
@@ -63,3 +65,11 @@ def get_seq_series(df, cat_prot):
     return df[["start_pos","end_pos"]].apply(
         get_seq, axis=1, cat_prot=cat_prot
     )
+
+def check_is_file(file_path:str):
+    if os.path.isfile(file_path):
+        print(f"Loading `{file_path}`")
+        return True
+    else:
+        print(f"`{file_path}` does not exist, ignore it.")
+        return False

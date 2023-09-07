@@ -11,6 +11,7 @@ from peptdeep_hla.HLA_class_I import (
     HLA_Class_I_LSTM, HLA_Class_I_Bert,
     pretrained_HLA1
 )
+from peptdeep_hla.utils import check_is_file
 
 def read_peptide_files_as_df(peptide_files):
     df_list = []
@@ -121,10 +122,10 @@ def run_class1(
     )
     model.predict_batch_size = predicting_batch_size
 
-    if os.path.isfile(pretrained_model):
+    if check_is_file(pretrained_model):
         model.load(pretrained_model)
 
-    if peptide_file_to_train:
+    if check_is_file(peptide_file_to_train):
         seq_df = read_peptide_files_as_df(peptide_file_to_train)
         model.train(
             seq_df,
@@ -136,7 +137,7 @@ def run_class1(
         if model_save_as:
             model.save(model_save_as)
 
-    if peptide_file_to_predict:
+    if check_is_file(peptide_file_to_predict):
         seq_df = read_peptide_files_as_df(peptide_file_to_predict)
         seq_df = model.predict_from_peptide_df(
             seq_df, prob_threshold=prob_threshold
