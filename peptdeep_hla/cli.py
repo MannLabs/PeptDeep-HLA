@@ -87,8 +87,8 @@ def run(ctx, **kwargs):
     "**Optional**, default=0.7."
 )
 @click.option("--peptide_file_to_train", multiple=True,
-    help="Peptide file for transfer learning. "
-    "It is an txt/tsv/csv file which contains "
+    help="Peptide files for transfer learning. "
+    "It is a list of search engine PSM results or txt/tsv/csv files which contain "
     "true HLA peptide sequences in `sequence` column for training"
     "**Optional**, default is empty."
 )
